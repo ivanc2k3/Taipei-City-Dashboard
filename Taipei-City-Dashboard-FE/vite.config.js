@@ -22,17 +22,24 @@ const serverConfig = isDockerCompose
   : {
       headers: { 'X-Robots-Tag': 'noindex, nofollow' },
       host: "0.0.0.0",
-      port: 80,
+      port: 8000,
+      // proxy: {
+      //   "/api": {
+      //     target: "https://citydashboard.taipei/api/v1",
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/api/, "")
+      //   },
+      //   "/geo_server": {
+      //     target: "https://citydashboard.taipei/geo_server/",
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/geo_server/, "")
+      //   }
+      // }
       proxy: {
-        "/api": {
-          target: "https://citydashboard.taipei/api/v1",
+        "/api/dev": {
+          target: "http://localhost:8088",
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, "")
-        },
-        "/geo_server": {
-          target: "https://citydashboard.taipei/geo_server/",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/geo_server/, "")
+          rewrite: (path) => path.replace("/dev", "/v1")
         }
       }
     };

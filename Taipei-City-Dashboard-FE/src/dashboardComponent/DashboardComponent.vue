@@ -2,6 +2,10 @@
 import { computed, ref } from "vue";
 // import "./styles/chartStyles.css";
 // import "./styles/toggleswitch.css";
+
+import NeonButton from "./components/NeonButton.vue";
+import CoolTipChart from "./components/CoolTipChart.vue";
+
 import "material-icons/iconfont/material-icons.css";
 import { getComponentDataTimeframe } from "./utilities/dataTimeframe";
 import { timeTerms } from "./utilities/AllTimes";
@@ -12,6 +16,7 @@ import TagTooltip from "./components/TagTooltip.vue";
 import DistrictChart from "./components/DistrictChart.vue";
 import DonutChart from "./components/DonutChart.vue";
 import BarChart from "./components/BarChart.vue";
+import ConfettiButton from "./components/ConfettiButton.vue";
 import TreemapChart from "./components/TreemapChart.vue";
 import ColumnChart from "./components/ColumnChart.vue";
 import BarPercentChart from "./components/BarPercentChart.vue";
@@ -220,10 +225,17 @@ function returnChartComponent(name, svg) {
 		return svg ? IndicatorChartSvg : IndicatorChart;
 	case "TextUnitChart":
 		return svg ? TextUnitChartSvg : TextUnitChart;
+	case "CoolTipChart":
+		return svg ? TextUnitChartSvg : CoolTipChart;
 	default:
 		return svg ? MapLegendSvg : MapLegend;
 	}
 }
+
+function onFly() {
+//   console.log("彩帶飛囉！");
+}
+
 </script>
 
 <template>
@@ -302,6 +314,10 @@ function returnChartComponent(name, svg) {
         >
           <span>add_circle</span>
         </button>
+		<ConfettiButton 
+			v-if="favoriteBtn" 
+			:disabled="isFavorite"
+			label="love" @fly="onFly">
         <button
           v-if="favoriteBtn"
           :class="{
@@ -311,6 +327,7 @@ function returnChartComponent(name, svg) {
         >
           <span>favorite</span>
         </button>
+		</Confettibutton>
         <button
           v-if="deleteBtn"
           class="isDelete"
@@ -386,6 +403,7 @@ function returnChartComponent(name, svg) {
           v-if="mode === 'preview'"
           class="city-tag-container-preview"
         >
+		
           <ComponentTag
             v-for="city in props.cityTag"
             :key="city.value"
